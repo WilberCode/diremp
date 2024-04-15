@@ -23,41 +23,41 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::prefix('v1')->group(function () {
-     // PUBLIC
-    Route::get('/public/empresas/{quantity}',[FrontController::class,'empresas']);
-    Route::get('/public/empresa/{id}',[FrontController::class,'empresa']);
-    Route::get('/public/categorias',[FrontController::class,'categorias']);
-    Route::get('/public/categorias/{id}',[FrontController::class,'categoria']);
-  /*   Route::get('/public/{slug}',[FrontController::class,'categoria']); */
+    // PUBLIC
+   Route::get('/public/empresas/{quantity}',[FrontController::class,'empresas']);
+   Route::get('/public/empresa/{id}',[FrontController::class,'empresa']);
+   Route::get('/public/categorias',[FrontController::class,'categorias']);
+   Route::get('/public/categorias/{id}',[FrontController::class,'categoria']);
+ /*   Route::get('/public/{slug}',[FrontController::class,'categoria']); */
 
-    //::auth
-    Route::post('/auth/register',[AuthController::class,'register']);
-    Route::post('/auth/login',[AuthController::class,'login']);
+   //::auth
+   Route::post('/auth/register',[AuthController::class,'register']);
+   Route::post('/auth/login',[AuthController::class,'login']);
 
-     // PRIVATE
-     Route::group(['middleware' => 'auth:sanctum'], function () {
-        //::auth
-        Route::post('/auth/logout',[AuthController::class,'logout']);
+    // PRIVATE
+    Route::group(['middleware' => 'auth:sanctum'], function () {
+       //::auth
+       Route::post('/auth/logout',[AuthController::class,'logout']);
 
-        //::rol client
-        Route::apiResource('/client/empresa',ClientEmpresaController::class);
+       //::rol client
+       Route::apiResource('/client/empresa',ClientEmpresaController::class);
 
-        //::rol  admin
-        Route::apiResource('/admin/user',UserController::class);
-        Route::apiResource('/admin/categoria',CategoriaController::class);
-        Route::post('/admin/categoria/image',[CategoriaController::class,'uploadImage']);
-        Route::apiResource('/admin/empresa',EmpresaController::class);
+       //::rol  admin
+       Route::apiResource('/admin/user',UserController::class);
+       Route::apiResource('/admin/categoria',CategoriaController::class);
+       Route::post('/admin/categoria/image',[CategoriaController::class,'uploadImage']);
+       Route::apiResource('/admin/empresa',EmpresaController::class);
 
-        // Hook
-        Route::patch('/hook/order',[HookController::class,'order']);
-        Route::post('/hook/image',[HookController::class,'image']);
+       // Hook
+       Route::patch('/hook/order',[HookController::class,'order']);
+       Route::post('/hook/image',[HookController::class,'image']);
+       Route::patch('/hook/deleteimage',[HookController::class,'deleteImage']);
 
-     });
+    });
 });
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+   return $request->user();
 });
